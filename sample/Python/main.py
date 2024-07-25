@@ -2,6 +2,11 @@ import TradeModule as tm
 import sys
 import websocket
 import _thread
+import pandas as pd
+import json
+
+# データフレームのインデックス
+# ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
 
 
 APIPassword = '****'
@@ -10,12 +15,28 @@ token_value = '8f732c2af72f4e8eba277b067b651a9e'
 
 # tm.get_token(APIPassword)
 
-tm.register(token_value)
+# tm.register(token_value)
 
 #websocket
 def on_message(ws, message):
-    print('--- RECV MSG. --- ')
-    print(message)
+    # print('--- RECV MSG. --- ')
+    #読み込みがされているかを出力
+    print('.',end='')
+    # CSVファイルをデータフレームに読み込む
+    df = pd.read_csv('./sample/Python/data/output.csv')
+    # 1000行超えたら最初の50行を削除 
+    if len(df) > 1000:
+        df = df.iloc[50:]
+        # フィルタリングしたデータフレームを新しいCSVファイルとして保存（インデックスあり）
+        df.to_csv('./sample/Python/data/output.csv')
+    
+    new_data = json.loads(message)
+    # 新しいデータをデータフレームに追加
+    new_row_df = pd.DataFrame([new_data])
+    df2 = pd.concat([df, new_row_df], ignore_index=True)
+    # # データフレームをcsvファイルに保存する
+    df2.to_csv('./sample/Python/data/output.csv', index=False, encoding='utf-8')
+    # print(message)
 
 def on_error(ws, error):
     print('--- ERROR --- ')
