@@ -1,7 +1,18 @@
+import TradeModule as tm
 import sys
 import websocket
 import _thread
 
+
+APIPassword = '****'
+token_value = '8f732c2af72f4e8eba277b067b651a9e'
+
+
+# tm.get_token(APIPassword)
+
+tm.register(token_value)
+
+#websocket
 def on_message(ws, message):
     print('--- RECV MSG. --- ')
     print(message)

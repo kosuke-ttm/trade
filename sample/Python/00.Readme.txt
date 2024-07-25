@@ -3,114 +3,105 @@
 ・PUSH配信(websocket)をするには、python3のインストール後にコマンドプロンプトにて以下のコマンドを実行する。
 コマンド：py -m pip install websocket-client
 
+
 【注意】
 「token.py」ファイル名は、pythonで予約とされているため使用できません。
 
-【kabuステAPI実行方法】
-コマンドプロンプトから、各コマンドを実行する。
-
-【ファイルリスト】
+TradeModule.pyの構造
 １．トークン発行
-コマンド：python kabusapi_token.py
+get_token(password)
 ※１で発行したtokenを２以降の各ファイル内の「X-API-KEY」に指定する
 
 ２．注文発注（現物）
 （１）買
-コマンド：python kabusapi_sendorder_cash_buy.py
+sendorder_cash_buy(key)
+
 （２）売
-コマンド：python kabusapi_sendorder_cash_sell.py
+sendorder_cash_sell(key)
 
 ３．注文発注（信用）
 （１）新規
-コマンド：python kabusapi_sendorder_margin_new.py
+sendorder_margin_new(key)
+
 （２）新規_プレミアム料入札
-kabusapi_sendorder_margin_daytrade.py
+endorder_margin_daytrade(key)
+
 （３）返済（決済順序）
-コマンド：python kabusapi_sendorder_margin_pay_ClosePositionOrder.py
+sendorder_margin_pay_ClosePositionOrder(key)
+
 （４）返済（返済建玉指定）
-コマンド：python kabusapi_sendorder_margin_pay_ClosePositions.py
+kabusapi_sendorder_margin_pay_ClosePositions(key)
 
 ４．注文発注（先物）
 （１）新規
-コマンド：python kabusapi_sendorder_future_new.py
+sendorder_future_new(key)
+
 （２）返済（決済順序）
-コマンド：python kabusapi_sendorder_future_pay_ClosePositionOrder.py
+sendorder_future_pay_ClosePositionOrder(key)
+
 （３）返済（返済建玉指定）
-コマンド：python kabusapi_sendorder_future_pay_ClosePositions.py
+sendorder_future_pay_ClosePositions(key)
 
 ５．注文発注（OP）
 （１）新規
-コマンド：python kabusapi_sendorder_option_new.py
+sendorder_option_new(key)
+
 （２）返済（決済順序）
-コマンド：python kabusapi_sendorder_option_pay_ClosePositionOrder.py
+sendorder_option_pay_ClosePositionOrder(key)
+
 （３）返済（返済建玉指定）
-コマンド：python kabusapi_sendorder_option_pay_ClosePositions.py
+sendorder_option_pay_ClosePositions(key)
 
 ６．注文取消
-コマンド：python kabusapi_cancelorder.py
+cancelorder(key,password)
 
-７．取引余力（現物）
-コマンド：python kabusapi_cash.py
-
-８．取引余力（信用）
-コマンド：python kabusapi_margin.py
-
-９．取引余力（先物）
-コマンド：python kabusapi_wallet_future.py
-
-10．取引余力（OP）
-コマンド：python kabusapi_wallet_option.py
+７．取引余力（現物）（信用）（先物）（OP）
+capacity(key)
 
 11．時価情報・板情報
-コマンド：python kabusapi_board.py
+board(key)
 
 12．銘柄情報
-コマンド：python kabusapi_symbol.py
+symbol_info(key)
 
 13．注文約定照会
-コマンド：python kabusapi_orders.py
+orders(key)
 
 14．残高照会
-コマンド：python kabusapi_positions.py
+positions(key)
 
 15．先物銘柄コード取得
-コマンド：python kabusapi_symbolname_future.py
+symbolname_future(key)
 
 16．オプション、ミニオプション(限月)銘柄コード取得
-コマンド：python kabusapi_symbolname_option.py
+symbolname_option(key)
 
-17．PUSH配信開始
+17．PUSH配信開始はmain関数で実装
 コマンド：python kabusapi_websocket.py
 
-18．銘柄登録
-コマンド：python kabusapi_register.py
-
-19．銘柄登録解除
-コマンド：python kabusapi_unregister.py
-
-20．銘柄登録全解除
-コマンド：python kabusapi_unregisterall.py
+18．銘柄登録・解除
+register(key)
 
 21. 詳細ランキング
-コマンド：kabusapi_ranking.py
+ranking(key)
 
 22. 為替情報
-コマンド：kabusapi_exchange.py
+exchange(key)
 
 23. 規制情報
-コマンド：kabusapi_regulations.py
+regulations(key)
 
 24. 優先市場
-コマンド：kabusapi_primaryexchange.py
+primaryexchange(key)
 
 25. ソフトリミット
-コマンド：kabusapi_apisoftlimit.py
+apisoftlimit(key)
 
 26. プレミアム料取得
-kabusapi_marginpremium.py
+marginpremium(key)
 
 27．ミニオプション(限週)銘柄コード取得
-コマンド：python kabusapi_symbolname_minioptionweekly.py
+symbolname_minioptionweekly(key)
 
 
 // ライセンスについて
