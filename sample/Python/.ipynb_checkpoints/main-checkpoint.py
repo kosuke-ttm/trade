@@ -24,11 +24,11 @@ def on_message(ws, message):
     print('.',end='')
     # CSVファイルをデータフレームに読み込む
     df = pd.read_csv('./sample/Python/data/output.csv')
-    # 5000行超えたら最初の50行を削除 
-    if len(df) > 4000:
-        df = df.iloc[50:]
-        # フィルタリングしたデータフレームを新しいCSVファイルとして保存（インデックスあり）
-        df.to_csv('./sample/Python/data/output.csv')
+    # 1000行超えたら最初の50行を削除 
+    # if len(df) > 1000:
+    #     df = df.iloc[50:]
+    #     # フィルタリングしたデータフレームを新しいCSVファイルとして保存（インデックスあり）
+    #     df.to_csv('./sample/Python/data/output.csv')
     
     new_data = json.loads(message)
     # 新しいデータをデータフレームに追加
