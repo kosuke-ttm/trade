@@ -63,3 +63,6 @@ ws = websocket.WebSocketApp(url,
                         on_close = on_close)
 ws.on_open = on_open
 ws.run_forever()
+
+# 参考にしたいサイト
+# https://qiita.com/jkk-technologies/items/81f4424fa142ff3a6db1
