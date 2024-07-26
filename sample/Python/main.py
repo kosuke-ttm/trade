@@ -58,8 +58,8 @@ def on_open(ws):
 url = 'ws://localhost:18080/kabusapi/websocket'
 # websocket.enableTrace(True)
 ws = websocket.WebSocketApp(url,
-                          on_message = on_message,
-                          on_error = on_error,
-                          on_close = on_close)
+                        on_message = on_message,
+                        on_error = on_error,
+                        on_close = on_close)
 ws.on_open = on_open
 ws.run_forever()
