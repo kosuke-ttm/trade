@@ -1,8 +1,15 @@
 import TradeModule as tm
 import matplotlib.pyplot as plt
 import pandas as pd
+import configparser
 
-APIPassword = '****'
+conf = configparser.ConfigParser()
+conf.read('sample/Python/PersonalInformation.ini')
+
+# 個人情報入力
+APIPassword = conf["aukabu"]["APIPassword"]
+token_value = conf["aukabu"]["Token"]
+Password = conf["aukabu"]["Password"]
 
 # tm.get_token(APIPassword)
 
