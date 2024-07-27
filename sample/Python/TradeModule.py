@@ -1,6 +1,9 @@
 import urllib.request
 import json
 import pprint
+from datetime import datetime
+import jpholiday
+import calendar
 
 # リクエストレスポンスするための関数
 def fetch_data(res):
@@ -562,3 +565,32 @@ def sendorder_option_pay_ClosePositions(key):
     req.add_header('Content-Type', 'application/json')
     req.add_header('X-API-KEY', key)
     pprint.pprint(fetch_data(req))
+
+#先物225の取引時間であるかのチェックする関数
+def is_within_time_range():
+    now = datetime.now()
+    current_time = now.time()
+    current_weekday = calendar.day_name[now.weekday()]
+
+    # 平日の時間帯を定義
+    morning_start = datetime.strptime("08:45", "%H:%M").time()
+    afternoon_end = datetime.strptime("15:45", "%H:%M").time()
+    evening_start = datetime.strptime("16:30", "%H:%M").time()
+    next_morning_end = datetime.strptime("06:00", "%H:%M").time()
+
+    # 祝日かどうかをチェック
+    if jpholiday.is_holiday(now):
+        return False
+
+    # 平日と時間帯をチェック
+    if current_weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]:
+        if morning_start <= current_time <= afternoon_end:
+            return True
+        elif current_time >= evening_start or current_time <= next_morning_end:
+            return True
+
+    return False
+
+
+
+

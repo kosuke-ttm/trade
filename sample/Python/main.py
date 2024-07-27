@@ -4,26 +4,32 @@ import websocket
 import _thread
 import pandas as pd
 import json
+import matplotlib.pyplot as plt
+import configparser
+
+conf = configparser.ConfigParser()
+conf.read('sample/Python/PersonalInformation.ini')
+
+# 個人情報入力
+APIPassword = conf["aukabu"]["APIPassword"]
+token_value = conf["aukabu"]["Token"]
+Password = conf["aukabu"]["Password"]
 
 # データフレームのインデックス
 # ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
 
-
-APIPassword = '****'
-token_value = '69d95847184849d49a2dcfe1cd218940'
-
-
 # tm.get_token(APIPassword)
 
-tm.register(token_value)
+# tm.register(token_value)
 
 #websocket
 def on_message(ws, message):
-    # print('--- RECV MSG. --- ')
+    print('--- RECV MSG. --- ')
     #読み込みがされているかを出力
     print('.',end='')
     # CSVファイルをデータフレームに読み込む
     df = pd.read_csv('./sample/Python/data/output.csv')
+
     # 5000行超えたら最初の50行を削除 
     if len(df) > 4000:
         df = df.iloc[50:]
@@ -62,4 +68,8 @@ ws = websocket.WebSocketApp(url,
                           on_error = on_error,
                           on_close = on_close)
 ws.on_open = on_open
-ws.run_forever()
+
+if tm.is_within_time_range():
+    ws.run_forever()
+else:
+    print("取引時間外です")
