@@ -64,12 +64,15 @@ def on_open(ws):
 url = 'ws://localhost:18080/kabusapi/websocket'
 # websocket.enableTrace(True)
 ws = websocket.WebSocketApp(url,
-                          on_message = on_message,
-                          on_error = on_error,
-                          on_close = on_close)
+                        on_message = on_message,
+                        on_error = on_error,
+                        on_close = on_close)
 ws.on_open = on_open
 
 if tm.is_within_time_range():
     ws.run_forever()
 else:
     print("取引時間外です")
+
+# 参考にしたいサイト
+# https://qiita.com/jkk-technologies/items/81f4424fa142ff3a6db1
