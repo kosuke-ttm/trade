@@ -4,6 +4,7 @@ import pprint
 from datetime import datetime
 import jpholiday
 import calendar
+import requests
 
 # リクエストレスポンスするための関数
 def fetch_data(res):
@@ -591,6 +592,24 @@ def is_within_time_range():
 
     return False
 
-
+#line通知する関数
+def send_line_message(token, user_id, message):
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
+    data = {
+        "to": user_id,
+        "messages": [
+            {
+                "type": "text",
+                "text": message
+            }
+        ]
+    }
+    
+    response = requests.post(url, headers=headers, json=data)
+    return response.status_code, response.json()
 
 

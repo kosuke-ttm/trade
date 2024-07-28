@@ -6,6 +6,9 @@ import pandas as pd
 import json
 import matplotlib.pyplot as plt
 import configparser
+import pyautogui
+import time
+import subprocess
 
 conf = configparser.ConfigParser()
 conf.read('sample/Python/PersonalInformation.ini')
@@ -17,6 +20,20 @@ Password = conf["aukabu"]["Password"]
 
 # データフレームのインデックス
 # ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
+
+
+# アプリケーションの起動
+subprocess.Popen(r"")
+
+# アプリケーションが起動するまで待機
+time.sleep(3)
+
+# ログイン画面での操作を自動化
+# 例: パスワードの入力
+pyautogui.click(1139, 504)
+pyautogui.write(Password)
+# 例: ログインボタンをクリック
+pyautogui.click(1102, 660)
 
 # tm.get_token(APIPassword)
 
