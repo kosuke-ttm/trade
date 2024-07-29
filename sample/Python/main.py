@@ -47,11 +47,11 @@ with open('sample/Python/PersonalInformation.ini', 'w') as configfile:
 '''
 #以上
 
-# tm.register(token_value)
+tm.register(token_value)
 
 #websocket
 def on_message(ws, message):
-    print('--- RECV MSG. --- ')
+    # print('--- RECV MSG. --- ')
     #読み込みがされているかを出力
     print('.',end='')
     # CSVファイルをデータフレームに読み込む
@@ -97,11 +97,10 @@ ws = websocket.WebSocketApp(url,
 ws.on_open = on_open
 
 
-tm.send_line_message(line_token, line_user_id, "websocket実行")
 
 if tm.is_within_time_range():
+    tm.send_line_message(line_token, line_user_id, "websocket実行")
     ws.run_forever()
-    
 else:
     print("取引時間外です")
 
