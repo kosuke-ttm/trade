@@ -10,19 +10,18 @@ import pyautogui
 import time
 import subprocess
 
+# データフレームのインデックス
+# ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
+
 conf = configparser.ConfigParser()
 conf.read('sample/Python/PersonalInformation.ini')
 
 # 個人情報入力
 APIPassword = conf["aukabu"]["APIPassword"]
-token_value = conf["aukabu"]["Token"]
 Password = conf["aukabu"]["Password"]
 line_token = conf["aukabu"]["Linetoken"]
 line_user_id = conf["aukabu"]["Lineuserid"]
 application_pass = conf["aukabu"]["Appid"]
-
-# データフレームのインデックス
-# ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
 
 #以下は１日１回実行すればよい
 '''
@@ -36,18 +35,18 @@ pyautogui.click(1139, 504)
 pyautogui.write(Password)
 # 例: ログインボタンをクリック
 pyautogui.click(1102, 660)
-time.sleep(1)
-value = tm.get_token(APIPassword)
-
-# 'Settings'セクションの'username'キーの値を変更
-conf["aukabu"]["Token"] = value
+time.sleep(5)
+conf["aukabu"]["Token"] = tm.get_token(APIPassword)
 # 変更をINIファイルに書き戻す
 with open('sample/Python/PersonalInformation.ini', 'w') as configfile:
     conf.write(configfile)
 '''
 #以上
 
-tm.register(token_value)
+token_value = conf["aukabu"]["Token"]
+
+
+# tm.register(token_value)
 
 #websocket
 def on_message(ws, message):
