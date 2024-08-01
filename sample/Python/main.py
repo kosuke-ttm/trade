@@ -9,6 +9,11 @@ import configparser
 import pyautogui
 import time
 import subprocess
+import logging
+
+# ログの設定
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
 
 # データフレームのインデックス
 # ClearingPrice,Exchange,ExchangeName,TradingVolume,TradingVolumeTime,VWAP,TradingValue,BidQty,BidPrice,BidSign,AskQty,AskPrice,AskSign,Symbol,SymbolName,CurrentPrice,CurrentPriceTime,CurrentPriceChangeStatus,CurrentPriceStatus,CalcPrice,PreviousClose,PreviousCloseTime,ChangePreviousClose,ChangePreviousClosePer,OpeningPrice,OpeningPriceTime,HighPrice,HighPriceTime,LowPrice,LowPriceTime,SecurityType,Sell1,Sell2,Sell3,Sell4,Sell5,Sell6,Sell7,Sell8,Sell9,Sell10,Buy1,Buy2,Buy3,Buy4,Buy5,Buy6,Buy7,Buy8,Buy9,Buy10
@@ -50,40 +55,45 @@ token_value = conf["aukabu"]["Token"]
 
 #websocket
 def on_message(ws, message):
-    # print('--- RECV MSG. --- ')
-    #読み込みがされているかを出力
-    print('.',end='')
-    # CSVファイルをデータフレームに読み込む
-    df = pd.read_csv('./sample/Python/data/output.csv')
-
-    # 5000行超えたら最初の50行を削除 
-    if len(df) > 4000:
-        df = df.iloc[50:]
-        # フィルタリングしたデータフレームを新しいCSVファイルとして保存（インデックスあり）
-        df.to_csv('./sample/Python/data/output.csv')
-    
-    new_data = json.loads(message)
-    # 新しいデータをデータフレームに追加
-    new_row_df = pd.DataFrame([new_data])
-    df2 = pd.concat([df, new_row_df], ignore_index=True)
-    # # データフレームをcsvファイルに保存する
-    df2.to_csv('./sample/Python/data/output.csv', index=False, encoding='utf-8')
-    # print(message)
+    try:
+        # CSVファイルをデータフレームに読み込む
+        df = pd.read_csv('./sample/Python/data/output.csv')
+        if len(df)%1000 == 0:
+            logging.info("1000行取り込みました")
+        # # 5000行超えたら最初の50行を削除 
+        # if len(df) > 4000:
+        #     df = df.iloc[50:]
+        #     # フィルタリングしたデータフレームを新しいCSVファイルとして保存（インデックスあり）
+        #     df.to_csv('./sample/Python/data/output.csv')
+        new_data = json.loads(message)
+        # 新しいデータをデータフレームに追加
+        new_row_df = pd.DataFrame([new_data])
+        df2 = pd.concat([df, new_row_df], ignore_index=True)
+        # # データフレームをcsvファイルに保存する
+        df2.to_csv('./sample/Python/data/output.csv', index=False, encoding='utf-8')
+    except Exception as e:
+        logging.error(f'Error processing message: {e}')
 
 def on_error(ws, error):
-    print('--- ERROR --- ')
-    print(error)
+    logging.error(f'WebSocket error: {error}')
+    # 再接続を試みる
+    time.sleep(5)
+    tm.send_line_message(line_token, line_user_id, "websocket再接続")
+    a = input("もう一回つなぎますか？") #ウィンドウポップアップまたはLINEから許可できるようにしたい
+    ws.run_forever()
 
 def on_close(ws):
-    print('--- DISCONNECTED --- ')
+    tm.send_line_message(line_token, line_user_id, "websocket閉じられました")
+    logging.info('WebSocket closed')
+
 
 def on_open(ws):
-    print('--- CONNECTED --- ')
+    logging.info('WebSocket connected')
     def run(*args):
         while(True):
             line = sys.stdin.readline()
-            if line != '':
-                print('closing...')
+            if line:
+                logging.info('Closing WebSocket')
                 ws.close()
     _thread.start_new_thread(run, ())
 
