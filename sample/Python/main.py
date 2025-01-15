@@ -51,7 +51,7 @@ with open('sample/Python/PersonalInformation.ini', 'w') as configfile:
 token_value = conf["aukabu"]["Token"]
 
 
-# tm.register(token_value)
+tm.register(token_value)
 
 #websocket
 def on_message(ws, message):
