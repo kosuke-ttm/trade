@@ -36,10 +36,10 @@ subprocess.Popen(application_pass)
 time.sleep(3)
 # ログイン画面での操作を自動化
 # 例: パスワードの入力
-pyautogui.click(1139, 504)
+pyautogui.click(1073, 586)
 pyautogui.write(Password)
-# 例: ログインボタンをクリック
-pyautogui.click(1102, 660)
+# 例: ログインボタンをクリック2118030762
+pyautogui.click(1231, 655)
 time.sleep(5)
 conf["aukabu"]["Token"] = tm.get_token(APIPassword)
 # 変更をINIファイルに書き戻す

@@ -14,6 +14,12 @@
 # 学び
 viteを使ったReactによるトレード用のWebアプリを作成したい
 
+2025.01.17
+目標：データベースをcsvファイルとしてやろうとしてたのをやめてmysqlを導入してデータベースの操作をしたい
+その前に.gitignoreを使うことで個人情報ファイルをアップロードしないようにした。←1か月ほど前にやり方を知った
+mysql-connector-python-9.1.0をpipコマンドを使ってインストールした。condaとpipちゃんと使い分けているか不安になったので後日調べたい。
+mysql_connector-python を調べているとxdevapiっていうものが公式GithubのReadmeに書いてあった。これはなんだ？
+
 
 ```bash
 npm create vite@latest frontend -- --template react-ts
